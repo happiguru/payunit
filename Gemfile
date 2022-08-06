@@ -18,3 +18,9 @@ gem "base64"
 gem "httpx"
 
 gem "launchy"
+
+gem "net-http"
+
+gem "faraday"
+
+gem "faraday-net_http"

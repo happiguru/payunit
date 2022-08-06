@@ -2,8 +2,11 @@
 
 require_relative "payunit/version"
 require "base64"
-require "httpx"
 require "launchy"
+require "byebug"
+require "faraday"
+require "faraday/net_http"
+Faraday.default_adapter = :net_http
 
 class PayUnit
   def initialize(api_key, api_username, api_password, return_url, notify_url, mode, currency)
@@ -23,7 +26,7 @@ class PayUnit
 
     auth = "#{@api_username}:#{@api_password}"
     environment = to_str(@mode)
-    auth_data = Base64.encode64(Base64.encode64(auth))
+    auth_data = Base64.encode64(auth)
     plain = Base64.decode64(auth_data)
 
     test_url = "https://app.payunit.net/api/gateway/initialize"
@@ -39,25 +42,28 @@ class PayUnit
       "notify_url": to_str(@notify_url),
       "total_amount": to_str(amount),
       "return_url": to_str(@return_url),
-      "purchaseRef": to_str(purchaseRef),
-      "description": to_str(description),
-      "name": to_str(name),
-      "currency": to_str(@currency),
-      "transaction_id": to_str(transaction_id)
+      "currency": to_str(@currency)
     }
 
+    # "purchaseRef": to_str(purchaseRef),
+    #   "description": to_str(description),
+    #   "name": to_str(name),
+    #   "transaction_id": to_str(transaction_id)
+
     begin
-      response = HTTPX.post(
-        test_url, test_body.to_json, headers: headers
+      conn = Faraday.new(
+        url: "https://app.payunit.net/api/gateway/initialize",
+        params: { param: "1" },
+        headers: headers
       )
+      response = conn.post(test_url, test_body.to_json, headers)
+
       response = response.to_json
 
-      if response.statusCode == 200
-        Launchy.open(response["data"]["transaction_url"])
-        { "message": "Successfylly initated Transaction", "statusCode": response["statusCode"] }
-      else
-        raise response["message"]
-      end
+      raise response["message"] unless response.status == 200
+
+      Launchy.open(response["data"]["transaction_url"])
+      { "message": "Successfylly initated Transaction", "statusCode": response["statusCode"] }
     rescue StandardError => e
       abort(response["statusCode"], response["message"])
     end
@@ -87,14 +93,13 @@ class PayUnit
     raise "Invalid sdk mode" if @mode.downcase != "test" && @mode.downcase != "live"
   end
 end
-api_key = "payunit_uWNwsqbl9"
-api_password = "3456656ff1207e61b49fd1026739831d365022f1"
-api_username = "apiUser"
-return_url = "returnUrl"
-notify_url = "notifyUrl"
-currency = "currency"
-mode = "test"
+api_key = "3456656ff1207e61b49fd1026739831d365022f1"
+api_password = "bf871f50-3cc9-42df-a7d5-eac2536c7130"
+api_username = "payunit_uWNwsqbl9"
+return_url = "https://aproplat.com"
+notify_url = "https://aproplat.com"
+currency = "XAF"
+mode = "live"
 
 payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
 payment.make_payment(500)
-puts payment
