@@ -24,3 +24,5 @@ gem "net-http"
 gem "faraday"
 
 gem "faraday-net_http"
+
+gem "securerandom"

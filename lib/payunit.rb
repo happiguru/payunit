@@ -27,8 +27,7 @@ class PayUnit
 
     auth = "#{@api_username}:#{@api_password}"
     environment = to_str(@mode)
-    auth_data = Base64.encode64(auth)
-    plain = Base64.decode64(auth_data)
+    auth_data = Base64.strict_encode64(auth)
     transaction_id = SecureRandom.uuid
 
     test_url = "https://app.payunit.net/api/gateway/initialize"
@@ -36,7 +35,7 @@ class PayUnit
     headers = {
       "x-api-key": to_str(@api_key),
       "content-type": "application/json",
-      "Authorization": "Basic #{(auth_data)}",
+      "Authorization": "Basic #{to_str(auth_data)}",
       "mode": to_str(environment.downcase)
     }
 
