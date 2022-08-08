@@ -50,7 +50,6 @@ class PayUnit
     # "purchaseRef": to_str(purchaseRef),
     #   "description": to_str(description),
     #   "name": to_str(name),
-    #   "transaction_id": to_str(transaction_id)
 
     begin
       conn = Faraday.new(
@@ -60,7 +59,6 @@ class PayUnit
       )
       response = conn.post(test_url, test_body.to_json, headers)
       
-      byebug
       response = response.to_json
       
      
@@ -99,13 +97,13 @@ class PayUnit
   end
 end
 
-api_key = "3456656ff1207e61b49fd1026739831d365022f1"
-api_password = "bf871f50-3cc9-42df-a7d5-eac2536c7130"
-api_username = "payunit_uWNwsqbl9"
-return_url = "https://aproplat.com"
-notify_url = "https://aproplat.com"
-currency = "XAF"
-mode = "live"
+# api_key = "3456656ff1207e61b49fd1026739831d365022f1"
+# api_password = "bf871f50-3cc9-42df-a7d5-eac2536c7130"
+# api_username = "payunit_uWNwsqbl9"
+# return_url = "https://aproplat.com"
+# notify_url = "https://aproplat.com"
+# currency = "XAF"
+# mode = "live"
 
-payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
-payment.make_payment(500)
+# payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
+# payment.make_payment(500)
