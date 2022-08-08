@@ -26,3 +26,7 @@ gem "faraday"
 gem "faraday-net_http"
 
 gem "securerandom"
+
+gem 'dotenv-rails'
+
+gem 'json_pure'

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "payunit/version"
+require 'json/pure'
 require "base64"
 require "launchy"
 require "byebug"
@@ -10,6 +11,7 @@ require "faraday/net_http"
 Faraday.default_adapter = :net_http
 
 class PayUnit
+  
   def initialize(api_key, api_username, api_password, return_url, notify_url, mode, currency)
     @api_key = api_key
     @api_username = api_username
@@ -48,7 +50,7 @@ class PayUnit
     }
 
     # You can uncomment the below parameters and add it to your test_body above
-    
+
     # "purchaseRef": to_str(purchaseRef),
     #   "description": to_str(description),
     #   "name": to_str(name),
@@ -61,16 +63,16 @@ class PayUnit
       )
       response = conn.post(test_url, test_body.to_json, headers)
       
-      response = response.to_json
+      # response = to_json(response.body)
+      response = JSON.parse(response&.body || "{}")
       
-     
-
-      raise response["message"] unless response.statusCode == 200
-
+      raise response["message"] unless response["statusCode"] == 200
+      
       Launchy.open(response["data"]["transaction_url"])
       { "message": "Successfylly initated Transaction", "statusCode": response["statusCode"] }
+      byebug
     rescue StandardError => e
-      abort(response["statusCode"], response["message"])
+      abort(response["message"])
     end
   end
 
@@ -99,3 +101,21 @@ class PayUnit
   end
 end
 
+api_key = "3456656ff1207e61b49fd1026739831d365022f1"
+api_password = "bf871f50-3cc9-42df-a7d5-eac2536c7130"
+api_username = "payunit_uWNwsqbl9"
+return_url = "https://aproplat.com"
+notify_url = "https://aproplat.com"
+currency = "XAF"
+mode = "live"
+
+# api_key = ENV['API_KEY']
+# api_password = ENV['API_PASSWORD']
+# api_username = ENV['API_USERNAME']
+# return_url = ENV['RETURN_URL']
+# notify_url = ENV['NOTIFY_URL']
+# currency = ENV['CURRENCY']
+# mode = ENV['MODE']
+# byebug
+payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
+payment.make_payment(500)
