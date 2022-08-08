@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 require_relative "payunit/version"
-require 'json/pure'
+require "json/pure"
 require "base64"
 require "launchy"
 require "byebug"
-require 'securerandom'
+require "securerandom"
 require "faraday"
 require "faraday/net_http"
 Faraday.default_adapter = :net_http
 
 class PayUnit
-  
   def initialize(api_key, api_username, api_password, return_url, notify_url, mode, currency)
     @api_key = api_key
     @api_username = api_username
@@ -62,16 +61,18 @@ class PayUnit
         headers: headers
       )
       response = conn.post(test_url, test_body.to_json, headers)
-      
+
       # response = to_json(response.body)
       response = JSON.parse(response&.body || "{}")
-      
+
       raise response["message"] unless response["statusCode"] == 200
-      
+
       Launchy.open(response["data"]["transaction_url"])
-      { "message": "Successfylly initated Transaction", "statusCode": response["statusCode"] }
-      byebug
-    rescue StandardError => e
+      {
+        "message": "Successfylly initated Transaction",
+        "statusCode": response["statusCode"]
+      }
+    rescue StandardError
       abort(response["message"])
     end
   end

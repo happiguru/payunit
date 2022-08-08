@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.email = ["hguruman@gmail.com"]
 
   spec.summary = "Cameroon Payment Gateway."
-  spec.description = "To aid Cameroon businesses to make both national and international payments using MTN and Orange Mobile Money, Paypal, Credit Card and Express Union."
+  spec.description = "To aid Cameroon businesses to make both national and
+                      international payments using MTN and Orange Mobile Money, Paypal, Credit Card and Express Union."
   spec.homepage = "https://rubygems.org/gems/payunit"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
