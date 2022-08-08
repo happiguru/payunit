@@ -47,6 +47,8 @@ class PayUnit
       "transaction_id": to_str(transaction_id)
     }
 
+    # You can uncomment the below parameters and add it to your test_body above
+    
     # "purchaseRef": to_str(purchaseRef),
     #   "description": to_str(description),
     #   "name": to_str(name),
@@ -97,13 +99,3 @@ class PayUnit
   end
 end
 
-# api_key = "3456656ff1207e61b49fd1026739831d365022f1"
-# api_password = "bf871f50-3cc9-42df-a7d5-eac2536c7130"
-# api_username = "payunit_uWNwsqbl9"
-# return_url = "https://aproplat.com"
-# notify_url = "https://aproplat.com"
-# currency = "XAF"
-# mode = "live"
-
-# payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
-# payment.make_payment(500)
