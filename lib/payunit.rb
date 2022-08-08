@@ -4,6 +4,7 @@ require_relative "payunit/version"
 require "base64"
 require "launchy"
 require "byebug"
+require 'securerandom'
 require "faraday"
 require "faraday/net_http"
 Faraday.default_adapter = :net_http
@@ -28,13 +29,14 @@ class PayUnit
     environment = to_str(@mode)
     auth_data = Base64.encode64(auth)
     plain = Base64.decode64(auth_data)
+    transaction_id = SecureRandom.uuid
 
     test_url = "https://app.payunit.net/api/gateway/initialize"
 
     headers = {
       "x-api-key": to_str(@api_key),
       "content-type": "application/json",
-      "Authorization": "Basic #{to_str(plain)}",
+      "Authorization": "Basic #{(auth_data)}",
       "mode": to_str(environment.downcase)
     }
 
@@ -42,7 +44,8 @@ class PayUnit
       "notify_url": to_str(@notify_url),
       "total_amount": to_str(amount),
       "return_url": to_str(@return_url),
-      "currency": to_str(@currency)
+      "currency": to_str(@currency),
+      "transaction_id": to_str(transaction_id)
     }
 
     # "purchaseRef": to_str(purchaseRef),
@@ -57,10 +60,13 @@ class PayUnit
         headers: headers
       )
       response = conn.post(test_url, test_body.to_json, headers)
-
+      
+      byebug
       response = response.to_json
+      
+     
 
-      raise response["message"] unless response.status == 200
+      raise response["message"] unless response.statusCode == 200
 
       Launchy.open(response["data"]["transaction_url"])
       { "message": "Successfylly initated Transaction", "statusCode": response["statusCode"] }
@@ -93,6 +99,7 @@ class PayUnit
     raise "Invalid sdk mode" if @mode.downcase != "test" && @mode.downcase != "live"
   end
 end
+
 api_key = "3456656ff1207e61b49fd1026739831d365022f1"
 api_password = "bf871f50-3cc9-42df-a7d5-eac2536c7130"
 api_username = "payunit_uWNwsqbl9"
