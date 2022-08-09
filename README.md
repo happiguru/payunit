@@ -33,7 +33,7 @@ mode = ENV['MODE']
 
 - Next is ```payment.make_payment(amount)```
 
-The above code will open a payment url that will be used to make the payment
+- The above code will open a payment url that will be used to make the payment
 
 ### ✒️ Authors - NB: Add Your Name Below
 
