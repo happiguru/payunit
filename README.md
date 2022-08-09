@@ -33,7 +33,7 @@ mode = ENV['MODE']
 
 - The above code will open a payment url that will be used to make the payment
 
-### ✒️ Authors - NB: Add Your Name Below
+### ✒️ Authors
 
 👤 **Stanley Enow Lekunze**
 
