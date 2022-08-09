@@ -109,5 +109,5 @@ end
 # currency = ENV['CURRENCY']
 # mode = ENV['MODE']
 
-payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
-payment.make_payment(500)
+# payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
+# # payment.make_payment(500)
