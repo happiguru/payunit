@@ -77,7 +77,48 @@ class PayUnit
     end
   end
 
+  def get_transaction_status
+    byebug
+    case gateway
+    when gateway == 'mtnmomo'
+      get_mtn_transaction(gateway, payment_ref, transaction_id, pay_token)
+    when gateway == 'orangemomo'
+      get_orange_transaction(gateway, transaction_id, payToken, xtoken, authToken)
+    end
+  end
+
   private
+
+  def get_mtn_transaction(gateway, payment_ref, transaction_id, pay_token)
+    begin
+      conn = Faraday.new(
+        url: "https://app.payunit.net/api/gateway/initialize",
+        params: { param: "1" },
+        headers: headers
+      )
+
+      requests = conn.get(
+        'https://app.payunit.net/api/{gateway}/{transaction_id}pay_to=${pay_token}$payment_ref=${payment_ref}'
+        ) 
+    rescue StandardError => e
+
+    end
+  end
+
+  def get_orange_transaction(gateway, transaction_id, payToken, xtoken, authToken)
+    begin
+      conn = Faraday.new(
+        url: "https://app.payunit.net/api/gateway/initialize",
+        params: { param: "1" },
+        headers: headers
+      )
+      requests = conn.get(
+        'https://app.payunit.net/api/{gateway}/paymentstatus/{gateway}/{transaction_id}?paytoken=${payToken}&auth-token=${authToken}&x-token=${xtoken}'
+        ) 
+    rescue StandardError => e
+
+    end
+  end
 
   def to_str(xata)
     xata.to_s
@@ -119,4 +160,6 @@ mode = "live"
 # mode = ENV['MODE']
 # byebug
 payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
-payment.make_payment(500)
+# payment.make_payment(500)
+gateway = 'mtnmomo'
+payment.get_transaction_status(gateway)
