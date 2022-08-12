@@ -23,9 +23,7 @@ Follow the instructions below to make payments locally:
 ```gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'```
 to your gemfile in order to save your secret credentials
 
-- Create a PayUnit Class and call the payment method
-
-```payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
+- Create a PayUnit Class and call the payment method ```payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
 ```
 
 - Next is to call the ```payment.make_payment(amount)``` function.
