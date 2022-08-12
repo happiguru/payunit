@@ -23,9 +23,11 @@ class PayUnit
     check
   end
 
-  def make_payment(amount)
+  def make_payment(amount, purchaseRef, description, name)
     return "Invalid transaction amount" if amount <= 0
-
+    @purchaseRef = purchaseRef
+    @description = description
+    @name = name
     auth = "#{@api_username}:#{@api_password}"
     environment = to_str(@mode)
     auth_data = Base64.strict_encode64(auth)
@@ -44,15 +46,12 @@ class PayUnit
       "notify_url": to_str(@notify_url),
       "total_amount": to_str(amount),
       "return_url": to_str(@return_url),
+      "purchaseRef": to_str(@purchaseRef),
+      "description": to_str(@description),
+      "name": to_str(@name),
       "currency": to_str(@currency),
       "transaction_id": to_str(transaction_id)
     }
-
-    # You can uncomment the below parameters and add it to your test_body above
-
-    # "purchaseRef": to_str(purchaseRef),
-    #   "description": to_str(description),
-    #   "name": to_str(name),
 
     begin
       conn = Faraday.new(
@@ -62,7 +61,6 @@ class PayUnit
       )
       response = conn.post(test_url, test_body.to_json, headers)
 
-      # response = to_json(response.body)
       response = JSON.parse(response&.body || "{}")
 
       raise response["message"] unless response["statusCode"] == 200
@@ -77,48 +75,7 @@ class PayUnit
     end
   end
 
-  def get_transaction_status
-    byebug
-    case gateway
-    when gateway == 'mtnmomo'
-      get_mtn_transaction(gateway, payment_ref, transaction_id, pay_token)
-    when gateway == 'orangemomo'
-      get_orange_transaction(gateway, transaction_id, payToken, xtoken, authToken)
-    end
-  end
-
   private
-
-  def get_mtn_transaction(gateway, payment_ref, transaction_id, pay_token)
-    begin
-      conn = Faraday.new(
-        url: "https://app.payunit.net/api/gateway/initialize",
-        params: { param: "1" },
-        headers: headers
-      )
-
-      requests = conn.get(
-        'https://app.payunit.net/api/{gateway}/{transaction_id}pay_to=${pay_token}$payment_ref=${payment_ref}'
-        ) 
-    rescue StandardError => e
-
-    end
-  end
-
-  def get_orange_transaction(gateway, transaction_id, payToken, xtoken, authToken)
-    begin
-      conn = Faraday.new(
-        url: "https://app.payunit.net/api/gateway/initialize",
-        params: { param: "1" },
-        headers: headers
-      )
-      requests = conn.get(
-        'https://app.payunit.net/api/{gateway}/paymentstatus/{gateway}/{transaction_id}?paytoken=${payToken}&auth-token=${authToken}&x-token=${xtoken}'
-        ) 
-    rescue StandardError => e
-
-    end
-  end
 
   def to_str(xata)
     xata.to_s
@@ -142,24 +99,3 @@ class PayUnit
     raise "Invalid sdk mode" if @mode.downcase != "test" && @mode.downcase != "live"
   end
 end
-
-api_key = "3456656ff1207e61b49fd1026739831d365022f1"
-api_password = "bf871f50-3cc9-42df-a7d5-eac2536c7130"
-api_username = "payunit_uWNwsqbl9"
-return_url = "https://aproplat.com"
-notify_url = "https://aproplat.com"
-currency = "XAF"
-mode = "live"
-
-# api_key = ENV['API_KEY']
-# api_password = ENV['API_PASSWORD']
-# api_username = ENV['API_USERNAME']
-# return_url = ENV['RETURN_URL']
-# notify_url = ENV['NOTIFY_URL']
-# currency = ENV['CURRENCY']
-# mode = ENV['MODE']
-# byebug
-payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
-# payment.make_payment(500)
-gateway = 'mtnmomo'
-payment.get_transaction_status(gateway)
