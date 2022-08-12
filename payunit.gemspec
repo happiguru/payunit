@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_dependency "base64", "~> 0.1.1"
-  spec.add_dependency "dotenv-rails", "~> 2.8", ">= 2.8.1"
   spec.add_dependency "faraday", "~> 2.5", ">= 2.5.2"
   spec.add_dependency "faraday-net_http", "~> 3.0"
   spec.add_dependency "json_pure", "~> 2.6", ">= 2.6.2"
