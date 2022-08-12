@@ -15,8 +15,14 @@ If bundler is not being used to manage dependencies, install the gem by executin
     $ gem install payunit
 
 ## Usage
+Follow the instructions below to make payments locally:
+- Create an account on `https://app.payunit.net/#/` to obtain your api_key, api_password, api_username 
+- Add `gem 'payunit', '~> 0.1.0'` to your gemfile
+- Add `gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'` to your gemfile in order to save your secret credentials
+- Make payments anywhere in your rails app by running the following
+1. payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
+2. payment.payment.make_payment(amount) amount is an integer gotten from the user
 
-TODO: Write usage instructions here
 
 ## Development
 
