@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 require_relative "payunit/version"
-require 'json/pure'
+require "json/pure"
 require "base64"
 require "launchy"
-require "byebug"
-require 'securerandom'
+require "dotenv-rails"
+require "securerandom"
 require "faraday"
 require "faraday/net_http"
 Faraday.default_adapter = :net_http
 
 class PayUnit
-  
   def initialize(api_key, api_username, api_password, return_url, notify_url, mode, currency)
     @api_key = api_key
     @api_username = api_username
@@ -24,9 +23,11 @@ class PayUnit
     check
   end
 
-  def make_payment(amount)
+  def make_payment(amount, purchaseRef, description, name)
     return "Invalid transaction amount" if amount <= 0
-
+    @purchaseRef = purchaseRef
+    @description = description
+    @name = name
     auth = "#{@api_username}:#{@api_password}"
     environment = to_str(@mode)
     auth_data = Base64.strict_encode64(auth)
@@ -45,15 +46,12 @@ class PayUnit
       "notify_url": to_str(@notify_url),
       "total_amount": to_str(amount),
       "return_url": to_str(@return_url),
+      "purchaseRef": to_str(@purchaseRef),
+      "description": to_str(@description),
+      "name": to_str(@name),
       "currency": to_str(@currency),
       "transaction_id": to_str(transaction_id)
     }
-
-    # You can uncomment the below parameters and add it to your test_body above
-
-    # "purchaseRef": to_str(purchaseRef),
-    #   "description": to_str(description),
-    #   "name": to_str(name),
 
     begin
       conn = Faraday.new(
@@ -62,16 +60,17 @@ class PayUnit
         headers: headers
       )
       response = conn.post(test_url, test_body.to_json, headers)
-      
-      # response = to_json(response.body)
+
       response = JSON.parse(response&.body || "{}")
-      
+
       raise response["message"] unless response["statusCode"] == 200
-      
+
       Launchy.open(response["data"]["transaction_url"])
-      { "message": "Successfylly initated Transaction", "statusCode": response["statusCode"] }
-      byebug
-    rescue StandardError => e
+      {
+        "message": "Successfylly initated Transaction",
+        "statusCode": response["statusCode"]
+      }
+    rescue StandardError
       abort(response["message"])
     end
   end
@@ -100,14 +99,3 @@ class PayUnit
     raise "Invalid sdk mode" if @mode.downcase != "test" && @mode.downcase != "live"
   end
 end
-
-# api_key = ENV['API_KEY']
-# api_password = ENV['API_PASSWORD']
-# api_username = ENV['API_USERNAME']
-# return_url = ENV['RETURN_URL']
-# notify_url = ENV['NOTIFY_URL']
-# currency = ENV['CURRENCY']
-# mode = ENV['MODE']
-
-# payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
-# # payment.make_payment(500)
