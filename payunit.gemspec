@@ -37,10 +37,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'base64', '~> 0.1.1'
   spec.add_dependency 'dotenv-rails', '~> 2.8', '>= 2.8.1'
   spec.add_dependency 'faraday', '~> 2.5', '>= 2.5.2'
-  spec.add_dependency "faraday-net_http"
-  spec.add_dependency "json_pure"
+  spec.add_dependency 'faraday-net_http', '~> 3.0'
+  spec.add_dependency 'json_pure', '~> 2.6', '>= 2.6.2'
   spec.add_dependency 'launchy', '~> 2.5'
-  spec.add_dependency "securerandom"
+  spec.add_dependency 'securerandom', '~> 0.2.0'
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end
