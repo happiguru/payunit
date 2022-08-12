@@ -13,7 +13,7 @@ gem "rubocop", "~> 1.21"
 
 gem "byebug"
 
-gem "base64"
+gem 'base64', '~> 0.1.1'
 
 gem "httpx"
 
