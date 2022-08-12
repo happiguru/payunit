@@ -6,7 +6,6 @@ require_relative "payunit/version"
 require "json/pure"
 require "base64"
 require "launchy"
-require "dotenv-rails"
 require "securerandom"
 require "faraday"
 require "faraday/net_http"
@@ -14,14 +13,6 @@ Faraday.default_adapter = :net_http
 
 # Payunit payment class
 class PayUnit
-  check_api_key
-  check_api_username
-  check_api_password
-  check_api_mode
-  check_currency
-  check_return_url
-  check_notify_url
-  check_api_sdk
   def initialize(api_key, api_username, api_password, return_url, notify_url, mode, currency)
     @api_key = api_key
     @api_username = api_username
@@ -30,6 +21,15 @@ class PayUnit
     @notify_url = notify_url
     @mode = mode
     @currency = currency
+
+    check_api_key
+    check_api_username
+    check_api_password
+    check_api_mode
+    check_currency
+    check_return_url
+    check_notify_url
+    check_api_sdk
   end
 
   def make_payment(amount, purchase_ref = nil, description = nil, name = nil)
