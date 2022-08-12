@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/AbcSize
 require_relative "payunit/version"
 require "json/pure"
 require "base64"
@@ -12,15 +14,14 @@ Faraday.default_adapter = :net_http
 
 # Payunit payment class
 class PayUnit
-  before_action :check_api_key
-  before_action :check_api_username
-  before_action :check_api_password
-  before_action :check_api_mode
-  before_action :check_currency
-  before_action :check_return_url
-  before_action :check_notify_url
-  before_action :check_api_sdk
-
+  check_api_key
+  check_api_username
+  check_api_password
+  check_api_mode
+  check_currency
+  check_return_url
+  check_notify_url
+  check_api_sdk
   def initialize(api_key, api_username, api_password, return_url, notify_url, mode, currency)
     @api_key = api_key
     @api_username = api_username
@@ -122,3 +123,5 @@ class PayUnit
     raise "Invalid sdk mode" if @mode.downcase != "test" && @mode.downcase != "live"
   end
 end
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/AbcSize
