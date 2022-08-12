@@ -17,6 +17,21 @@ Follow the instructions below to make payments locally:
 - Create an account on `https://app.payunit.net/#/` to obtain your api_key, api_password, api_username 
 - Add ```gem 'payunit', '~> 0.1.0'``` to your gemfile
 - Add `gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'` to your gemfile in order to save your secret credentials
+
+- Create a PayUnit Class and call the payment method
+```payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)```
+
+- Next is ```payment.make_payment(amount)```
+
+- The ```pay.make_payment()``` have optional parameters such as:
+- ```
+    @purchaseRef = purchaseRef
+    @description = description
+    @name = name
+```
+The above parameters are acceptable by payunit but they are optional and needs to be passed as ```payment.make_payment(amount, purchaseRef, description, name)```
+
+- The above code will open a payment url that will be used to make the payment
 - Make payments anywhere in your rails app by running the following
 1. payment = PayUnit.new(ENV(api_key), ENV(api_username), ENV(api_password), return_url,notify_url, mode, currency)
 2. payment.payment.make_payment(amount)
@@ -27,16 +42,6 @@ Follow the instructions below to make payments locally:
 - Mode is the the environment of the payment whether it is test or live
 - Currency the country currency the payment will be made in 
 
-
-
-```
-
-- Create a PayUnit Class and call the payment method
-```payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)```
-
-- Next is ```payment.make_payment(amount)```
-
-- The above code will open a payment url that will be used to make the payment
 
 ### ✒️ Authors
 
