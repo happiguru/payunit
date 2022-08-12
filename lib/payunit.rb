@@ -10,7 +10,17 @@ require "faraday"
 require "faraday/net_http"
 Faraday.default_adapter = :net_http
 
+# Payunit payment class
 class PayUnit
+  before_action :check_api_key
+  before_action :check_api_username
+  before_action :check_api_password
+  before_action :check_api_mode
+  before_action :check_currency
+  before_action :check_return_url
+  before_action :check_notify_url
+  before_action :check_api_sdk
+
   def initialize(api_key, api_username, api_password, return_url, notify_url, mode, currency)
     @api_key = api_key
     @api_username = api_username
@@ -19,13 +29,12 @@ class PayUnit
     @notify_url = notify_url
     @mode = mode
     @currency = currency
-
-    check
   end
 
-  def make_payment(amount, purchaseRef, description, name)
+  def make_payment(amount, purchase_ref = nil, description = nil, name = nil)
     return "Invalid transaction amount" if amount <= 0
-    @purchaseRef = purchaseRef
+
+    @purchase_ref = purchase_ref
     @description = description
     @name = name
     auth = "#{@api_username}:#{@api_password}"
@@ -46,7 +55,7 @@ class PayUnit
       "notify_url": to_str(@notify_url),
       "total_amount": to_str(amount),
       "return_url": to_str(@return_url),
-      "purchaseRef": to_str(@purchaseRef),
+      "purchaseRef": to_str(@purchase_ref),
       "description": to_str(@description),
       "name": to_str(@name),
       "currency": to_str(@currency),
@@ -81,21 +90,35 @@ class PayUnit
     xata.to_s
   end
 
-  def check
+  def check_api_key
     raise "api_key not present" if @api_key.empty?
+  end
 
+  def check_api_username
     raise "apiUsername not present" if @api_username.empty?
+  end
 
+  def check_api_password
     raise "apiPassword not present" if @api_password.empty?
+  end
 
+  def check_return_url
     raise "return url not present" if @return_url.empty?
+  end
 
-    raise "notification url not present" if @notify_url.empty?
+  def check_notify_url
+    rraise "notification url not present" if @notify_url.empty?
+  end
 
+  def check_currency
     raise "Current not yet set." if @currency.empty?
+  end
 
+  def check_api_mode
     raise "sdk mode not present" if @mode.empty?
+  end
 
+  def check_api_sdk
     raise "Invalid sdk mode" if @mode.downcase != "test" && @mode.downcase != "live"
   end
 end
