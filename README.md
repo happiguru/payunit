@@ -14,7 +14,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 Follow the instructions below to make payments locally:
-- Create an account on (Payunit)[https://app.payunit.net/#/] to obtain your api_key, api_password, api_username
+- Create an account on [Payunit](https://app.payunit.net) to obtain your api_key, api_password, api_username
 
 - Add the gem directly to your Gemfile using:
 ```gem 'payunit', '~> 0.1.0'```
