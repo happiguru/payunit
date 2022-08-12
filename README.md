@@ -17,7 +17,7 @@ Follow the instructions below to make payments locally:
 - Create an account on [Payunit](https://app.payunit.net) to obtain your api_key, api_password, api_username
 
 - Add the gem directly to your Gemfile using:
-```gem 'payunit', '~> 0.1.0'```
+```gem 'payunit', '~> 0.1.1'```
 
 - If you plan to use `.env` then add:
 ```gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'```
