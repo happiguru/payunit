@@ -70,7 +70,6 @@ class PayUnit
       
       Launchy.open(response["data"]["transaction_url"])
       { "message": "Successfylly initated Transaction", "statusCode": response["statusCode"] }
-      byebug
     rescue StandardError => e
       abort(response["message"])
     end
