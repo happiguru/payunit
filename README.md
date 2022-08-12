@@ -14,17 +14,25 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 Follow the instructions below to make payments locally:
-- Create an account on `https://app.payunit.net/#/` to obtain your api_key, api_password, api_username 
-- Add ```gem 'payunit', '~> 0.1.0'``` to your gemfile
-- Add `gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'` to your gemfile in order to save your secret credentials
+- Create an account on (Payunit)[https://app.payunit.net/#/] to obtain your api_key, api_password, api_username
+
+- Add the gem directly to your Gemfile using:
+```gem 'payunit', '~> 0.1.0'```
+
+- If you plan to use `.env` then add:
+```gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'```
+to your gemfile in order to save your secret credentials
 
 - Create a PayUnit Class and call the payment method
-```payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)```
 
-- Next is ```payment.make_payment(amount)```
+```payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
+```
+
+- Next is to call the ```payment.make_payment(amount)``` function.
 
 - The ```pay.make_payment()``` have optional parameters such as:
-- ```
+
+```
     @purchaseRef = purchaseRef
     @description = description
     @name = name
@@ -41,7 +49,6 @@ Follow the instructions below to make payments locally:
 - Return url is the url to return to when the request fails
 - Mode is the the environment of the payment whether it is test or live
 - Currency the country currency the payment will be made in 
-
 
 ### ✒️ Authors
 
@@ -67,3 +74,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the Payunit project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/payunit/blob/main/CODE_OF_CONDUCT.md).
+
