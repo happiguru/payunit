@@ -29,7 +29,7 @@ Follow the instructions below to make payments locally:
     @description = description
     @name = name
 ```
-The above parameters are acceptable by payunit but they are optional and needs to be passed as ```payment.make_payment(amount, purchaseRef, description, name)```
+- The above parameters are acceptable by payunit but they are optional and needs to be passed as ```payment.make_payment(amount, purchaseRef, description, name)```
 
 - The above code will open a payment url that will be used to make the payment
 - Make payments anywhere in your rails app by running the following
