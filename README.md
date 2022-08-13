@@ -41,7 +41,8 @@ to your gemfile in order to save your secret credentials
 - Make payments anywhere in your rails app by running the following
 1. payment = PayUnit.new(ENV(api_key), ENV(api_username), ENV(api_password), return_url,notify_url, mode, currency)
 2. Get the payment data and url like this
-```payment_url = payment.payment.make_payment(amount)
+```
+payment_url = payment.payment.make_payment(amount)
 ```
 3. This following function will open the url in the browser
 ```
