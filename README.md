@@ -17,10 +17,10 @@ Follow the instructions below to make payments locally:
 - Create an account on [Payunit](https://app.payunit.net) to obtain your api_key, api_password, api_username
 
 - Add the gem directly to your Gemfile using:
-```gem 'payunit', '~> 0.1.1'```
+```gem 'payunit', '~> 0.2.0'```
 
 - If you plan to use `.env` then add:
-```gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'```
+```gem 'dotenv'```
 to your gemfile in order to save your secret credentials
 
 - Create a PayUnit Class and call the payment method:
@@ -40,7 +40,14 @@ to your gemfile in order to save your secret credentials
 - The above code will open a payment url that will be used to make the payment
 - Make payments anywhere in your rails app by running the following
 1. payment = PayUnit.new(ENV(api_key), ENV(api_username), ENV(api_password), return_url,notify_url, mode, currency)
-2. payment.payment.make_payment(amount)
+2. Get the payment data and url like this
+```payment_url = payment.payment.make_payment(amount)
+```
+3. This following function will open the url in the browser
+```
+redirect_to payment_url["data"]["transaction_url"]
+```
+
 # Note
 - Amount is an integer gotten from the user
 - Notify url is the success url to redirect to when the request is successful 
