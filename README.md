@@ -22,13 +22,25 @@ Follow the instructions below to make payments locally:
 - If you plan to use `.env` then add:
 ```gem 'dotenv'```
 to your gemfile in order to save your secret credentials
+```
+payment = PayUnit.new(
+    ENV.fetch('PAY_UNIT_API_KEY', nil),
+    ENV.fetch('PAY_UNIT_API_USERNAME', nil),
+    ENV.fetch('PAY_UNIT_API_PASSWORD', nil),
+    ENV.fetch('PAY_UNIT_RETURN_URL', nil),
+    ENV.fetch('PAY_UNIT_NOTIFY_URL', nil),
+    ENV.fetch('PAY_UNIT_MODE', nil),
+    ENV.fetch('PAY_UNIT_CURRENCY', nil))
+    
+payunit_url = payment.make_payment(amount.to_i)
+```
 
 - Create a PayUnit Class and call the payment method:
 ```payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)```
 
 - Next is to call the ```payment.make_payment(amount)``` function.
 
-- The ```pay.make_payment()``` have optional parameters such as:
+- The ```payment.make_payment()``` have optional parameters such as:
 
 ```
     @purchaseRef = purchaseRef
@@ -42,7 +54,7 @@ to your gemfile in order to save your secret credentials
 1. payment = PayUnit.new(ENV(api_key), ENV(api_username), ENV(api_password), return_url,notify_url, mode, currency)
 2. Get the payment data and url like this
 ```
-payment_url = payment.payment.make_payment(amount)
+payment_url = payment.make_payment(amount)
 ```
 3. This following function will open the url in the browser
 ```
