@@ -9,3 +9,6 @@
 
 # rspec failure tracking
 .rspec_status
+/lib/.byebug_history
+env
+pay.rb

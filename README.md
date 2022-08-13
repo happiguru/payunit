@@ -1,8 +1,6 @@
 # Payunit
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/payunit`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem was developed to aid Cameroon businesses to make both national and international payments using MTN and Orange Mobile Money, Paypal, Credit Card and Express Union.
 
 ## Installation
 
@@ -15,18 +13,65 @@ If bundler is not being used to manage dependencies, install the gem by executin
     $ gem install payunit
 
 ## Usage
+Follow the instructions below to make payments locally:
+- Create an account on [Payunit](https://app.payunit.net) to obtain your api_key, api_password, api_username
 
-TODO: Write usage instructions here
+- Add the gem directly to your Gemfile using:
+```gem 'payunit', '~> 0.2.0'```
 
-## Development
+- If you plan to use `.env` then add:
+```gem 'dotenv'```
+to your gemfile in order to save your secret credentials
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+- Create a PayUnit Class and call the payment method:
+```payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+- Next is to call the ```payment.make_payment(amount)``` function.
+
+- The ```pay.make_payment()``` have optional parameters such as:
+
+```
+    @purchaseRef = purchaseRef
+    @description = description
+    @name = name
+```
+- The above parameters are acceptable by payunit but they are optional and needs to be passed as ```payment.make_payment(amount, purchaseRef, description, name)```
+
+- The above code will open a payment url that will be used to make the payment
+- Make payments anywhere in your rails app by running the following
+1. payment = PayUnit.new(ENV(api_key), ENV(api_username), ENV(api_password), return_url,notify_url, mode, currency)
+2. Get the payment data and url like this
+```
+payment_url = payment.payment.make_payment(amount)
+```
+3. This following function will open the url in the browser
+```
+redirect_to payment_url["data"]["transaction_url"]
+```
+
+# Note
+- Amount is an integer gotten from the user
+- Notify url is the success url to redirect to when the request is successful 
+- Return url is the url to return to when the request fails
+- Mode is the the environment of the payment whether it is test or live
+- Currency the country currency the payment will be made in 
+
+### ✒️ Authors
+
+👤 **Stanley Enow Lekunze**
+
+- Github: [@happiguru](https://github.com/happiguru)
+- LinkedIn:[LinkedIn](https://www.linkedin.com/in/lekunze-nley)
+
+👤 **CHE NSOH BLANCHARD**
+
+- GitHub: [@che30](https://github.com/che30)
+- Twitter: [@BlanchardNsoh](https://twitter.com/che55085128 )
+- LinkedIn: [Che Blanchard](https://www.linkedin.com/in/che-nsoh-9455271b0/)
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/payunit. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/payunit/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/[happiguru]/payunit. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[happiguru]/payunit/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -35,3 +80,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the Payunit project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/payunit/blob/main/CODE_OF_CONDUCT.md).
+
