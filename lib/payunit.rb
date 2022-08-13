@@ -5,10 +5,7 @@
 require_relative "payunit/version"
 require "json/pure"
 require "base64"
-require "launchy"
-require 'net/http'
-require 'byebug'
-require 'uri'
+require "net/http"
 require "securerandom"
 require "faraday"
 require "faraday/net_http"
@@ -78,17 +75,7 @@ class PayUnit
 
       raise response["message"] unless response["statusCode"] == 200
 
-      # Launchy.open(response["data"]["transaction_url"])
-      # {
-      #   "message": "Successfylly initated Transaction",
-      #   "statusCode": response["statusCode"]
-      # }
-      
-      # byebug
-      # puts response
-      return response
-    
-
+      response
     rescue StandardError
       abort(response["message"])
     end
@@ -134,17 +121,3 @@ class PayUnit
 end
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/AbcSize
-
-
-api_key = "3456656ff1207e61b49fd1026739831d365022f1"
-api_password = "bf871f50-3cc9-42df-a7d5-eac2536c7130"
-api_username = "payunit_uWNwsqbl9"
-return_url = "https://aproplat.com"
-notify_url = "https://aproplat.com"
-currency = "XAF"
-mode = "live"
-
-
-payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
-payment.make_payment(500)
-
