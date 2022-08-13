@@ -24,3 +24,5 @@ gem "securerandom", "~> 0.2.0"
 gem "dotenv-rails", "~> 2.8", ">= 2.8.1"
 
 gem "json_pure", "~> 2.6", ">= 2.6.2"
+
+gem "byebug"
