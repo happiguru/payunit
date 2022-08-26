@@ -7,10 +7,9 @@ require_relative "payunit/version"
 require "json/pure"
 require "base64"
 require "net/http"
-require "securerandom"
 require "faraday"
 require "faraday/net_http"
-require "byebug"
+
 Faraday.default_adapter = :net_http
 
 # Payunit payment class
