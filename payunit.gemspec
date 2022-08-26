@@ -5,8 +5,8 @@ require_relative "lib/payunit/version"
 Gem::Specification.new do |spec|
   spec.name = "payunit"
   spec.version = Payunit::VERSION
-  spec.authors = ["Lekunze Stanley Enow", "Che Blanchard"]
-  spec.email = ["hguruman@gmail.com"]
+  spec.authors = ["Lekunze Stanley Enow", "Che Nsoh Blanchard"]
+  spec.email = ["hguruman@gmail.com", "che.blancoo58@gmail.com"]
 
   spec.summary = "Cameroon Payment Gateway."
   spec.description = "To aid Cameroon businesses to make both national and
@@ -38,7 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday", "~> 2.5", ">= 2.5.2"
   spec.add_dependency "faraday-net_http", "~> 3.0"
   spec.add_dependency "json_pure", "~> 2.6", ">= 2.6.2"
-  spec.add_dependency "securerandom", "~> 0.2.0"
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end
