@@ -16,6 +16,8 @@ If bundler is not being used to manage dependencies, install the gem by executin
 Follow the instructions below to make payments locally:
 - Create an account on [Payunit](https://app.payunit.net) to obtain your api_key, api_password, api_username
 
+## To Make A Payment
+
 - Add the gem directly to your Gemfile using:
 ```gem 'payunit', '~> 0.2.1'```
 
@@ -31,8 +33,6 @@ payment = PayUnit.new(
     ENV.fetch('PAY_UNIT_NOTIFY_URL', nil),
     ENV.fetch('PAY_UNIT_MODE', nil),
     ENV.fetch('PAY_UNIT_CURRENCY', nil))
-
-## To Make A Payment
 
 payunit_url = payment.make_payment(amount.to_i, transaction_id)
 ```
