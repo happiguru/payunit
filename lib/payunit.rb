@@ -2,13 +2,14 @@
 
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/ClassLength
 require_relative "payunit/version"
 require "json/pure"
 require "base64"
 require "net/http"
-require "securerandom"
 require "faraday"
 require "faraday/net_http"
+
 Faraday.default_adapter = :net_http
 
 # Payunit payment class
@@ -32,7 +33,7 @@ class PayUnit
     check_api_sdk
   end
 
-  def make_payment(amount, purchase_ref = nil, description = nil, name = nil)
+  def make_payment(amount, transaction_id, purchase_ref = nil, description = nil, name = nil)
     return "Invalid transaction amount" if amount <= 0
 
     @purchase_ref = purchase_ref
@@ -41,7 +42,7 @@ class PayUnit
     auth = "#{@api_username}:#{@api_password}"
     environment = to_str(@mode)
     auth_data = Base64.strict_encode64(auth)
-    transaction_id = SecureRandom.uuid
+    @transaction_id = transaction_id
 
     test_url = "https://app.payunit.net/api/gateway/initialize"
 
@@ -70,9 +71,38 @@ class PayUnit
         headers: headers
       )
       response = conn.post(test_url, test_body.to_json, headers)
-
       response = JSON.parse(response&.body || "{}")
 
+      raise response["message"] unless response["statusCode"] == 200
+
+      response
+    rescue StandardError
+      abort(response["message"])
+    end
+  end
+
+  def transaction_details(transaction_id)
+    auth = "#{@api_username}:#{@api_password}"
+    environment = to_str(@mode)
+    auth_data = Base64.strict_encode64(auth)
+
+    headers = {
+      "x-api-key": to_str(@api_key),
+      "content-type": "application/json",
+      "Authorization": "Basic #{to_str(auth_data)}",
+      "mode": to_str(environment.downcase)
+    }
+    begin
+      conn = Faraday.new(
+        url: "https://app.payunit.net/api/gateway/initialize",
+        params: { param: "1" },
+        headers: headers
+      )
+
+      url = "https://app.payunit.net/api/gateway/transaction/#{transaction_id}"
+
+      response = conn.get(url)
+      response = JSON.parse(response&.body || "{}")
       raise response["message"] unless response["statusCode"] == 200
 
       response
@@ -121,3 +151,4 @@ class PayUnit
 end
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/ClassLength
