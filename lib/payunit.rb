@@ -61,7 +61,7 @@ class PayUnit
       "description": to_str(@description),
       "name": to_str(@name),
       "currency": to_str(@currency),
-      "transaction_id": to_str(transaction_id)
+      "transaction_id": to_str(@transaction_id)
     }
 
     begin
