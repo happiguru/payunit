@@ -2,6 +2,7 @@
 
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/ClassLength
 require_relative "payunit/version"
 require "json/pure"
 require "base64"
@@ -9,6 +10,7 @@ require "net/http"
 require "securerandom"
 require "faraday"
 require "faraday/net_http"
+require "byebug"
 Faraday.default_adapter = :net_http
 
 # Payunit payment class
@@ -32,7 +34,7 @@ class PayUnit
     check_api_sdk
   end
 
-  def make_payment(amount, purchase_ref = nil, description = nil, name = nil)
+  def make_payment(amount, transaction_id, purchase_ref = nil, description = nil, name = nil)
     return "Invalid transaction amount" if amount <= 0
 
     @purchase_ref = purchase_ref
@@ -41,7 +43,7 @@ class PayUnit
     auth = "#{@api_username}:#{@api_password}"
     environment = to_str(@mode)
     auth_data = Base64.strict_encode64(auth)
-    transaction_id = SecureRandom.uuid
+    @transaction_id = transaction_id
 
     test_url = "https://app.payunit.net/api/gateway/initialize"
 
@@ -70,7 +72,6 @@ class PayUnit
         headers: headers
       )
       response = conn.post(test_url, test_body.to_json, headers)
-
       response = JSON.parse(response&.body || "{}")
 
       raise response["message"] unless response["statusCode"] == 200
@@ -98,9 +99,16 @@ class PayUnit
         params: { param: "1" },
         headers: headers
       )
-      response = conn.get('https://app.payunit.net/api/gateway/transaction/', transaction_id,  headers)
+
+      url = "https://app.payunit.net/api/gateway/transaction/#{transaction_id}"
+
+      response = conn.get(url)
+      response = JSON.parse(response&.body || "{}")
+      raise response["message"] unless response["statusCode"] == 200
+
+      response
     rescue StandardError
-  
+      abort(response["message"])
     end
   end
 
@@ -144,22 +152,4 @@ class PayUnit
 end
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/AbcSize
-
-
-
-
-
-
-# api_key='592563ad915dfcf36ac87b7bcff7b36fcddadf54'
-# api_password='6b4e5143-1200-4d91-aac6-77d8882be88e'
-# api_username='payunit_sand_XsV0ToJKi'
-# return_url='https://aproplat.com'
-# notify_url='https://aproplat.com'
-# currency='XAF'
-# mode='test'
-
-# payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
-# transaction_id = 757898467
-# payment.make_payment(amount = 500, transaction_id)
-
-# payment.transaction_details(transaction_id)
+# rubocop:enable Metrics/ClassLength
