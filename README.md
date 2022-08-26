@@ -110,7 +110,7 @@ The response you would get looks like this:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/happiguru/payunit/issues/new. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[happiguru]/payunit/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at [Create New Issue](https://github.com/happiguru/payunit/issues/new). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[happiguru]/payunit/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
