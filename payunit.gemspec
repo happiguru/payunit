@@ -5,7 +5,7 @@ require_relative "lib/payunit/version"
 Gem::Specification.new do |spec|
   spec.name = "payunit"
   spec.version = Payunit::VERSION
-  spec.authors = ["Lekunze Stanley Enow"]
+  spec.authors = ["Lekunze Stanley Enow", "Che Blanchard"]
   spec.email = ["hguruman@gmail.com"]
 
   spec.summary = "Cameroon Payment Gateway."

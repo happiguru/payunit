@@ -81,6 +81,29 @@ class PayUnit
     end
   end
 
+  def transaction_details(transaction_id)
+    auth = "#{@api_username}:#{@api_password}"
+    environment = to_str(@mode)
+    auth_data = Base64.strict_encode64(auth)
+
+    headers = {
+      "x-api-key": to_str(@api_key),
+      "content-type": "application/json",
+      "Authorization": "Basic #{to_str(auth_data)}",
+      "mode": to_str(environment.downcase)
+    }
+    begin
+      conn = Faraday.new(
+        url: "https://app.payunit.net/api/gateway/initialize",
+        params: { param: "1" },
+        headers: headers
+      )
+      response = conn.get('https://app.payunit.net/api/gateway/transaction/', transaction_id,  headers)
+    rescue StandardError
+  
+    end
+  end
+
   private
 
   def to_str(xata)
@@ -121,3 +144,22 @@ class PayUnit
 end
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/AbcSize
+
+
+
+
+
+
+# api_key='592563ad915dfcf36ac87b7bcff7b36fcddadf54'
+# api_password='6b4e5143-1200-4d91-aac6-77d8882be88e'
+# api_username='payunit_sand_XsV0ToJKi'
+# return_url='https://aproplat.com'
+# notify_url='https://aproplat.com'
+# currency='XAF'
+# mode='test'
+
+# payment = PayUnit.new(api_key, api_username, api_password, return_url, notify_url, mode, currency)
+# transaction_id = 757898467
+# payment.make_payment(amount = 500, transaction_id)
+
+# payment.transaction_details(transaction_id)
