@@ -5,16 +5,17 @@ require_relative "lib/payunit/version"
 Gem::Specification.new do |spec|
   spec.name = "payunit"
   spec.version = Payunit::VERSION
-  spec.authors = ["Lekunze Stanley Enow"]
-  spec.email = ["hguruman@gmail.com"]
+  spec.authors = ["Lekunze Stanley Enow", "Che Nsoh Blanchard"]
+  spec.email = ["hguruman@gmail.com", "che.blancoo58@gmail.com"]
 
   spec.summary = "Cameroon Payment Gateway."
-  spec.description = "To aid Cameroon businesses to make both national and international payments using MTN and Orange Mobile Money, Paypal, Credit Card and Express Union."
+  spec.description = "To aid Cameroon businesses to make both national and
+                      international payments using MTN and Orange Mobile Money, Paypal, Credit Card and Express Union."
   spec.homepage = "https://rubygems.org/gems/payunit"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
 
-  spec.metadata["allowed_push_host"] = "https://rubygems.org"
+  spec.metadata["allowed_push_host"] = "https://rubygems.org/"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/happiguru/payunit"
@@ -33,6 +34,7 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
+<<<<<<< HEAD
   spec.add_dependency "json_pure"
   spec.add_dependency "base64"
   spec.add_dependency "launchy"
@@ -42,6 +44,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday-net_http"
   spec.add_dependency "dotenv-rails"
 
+=======
+  spec.add_dependency "base64", "~> 0.1.1"
+  spec.add_dependency "faraday", "~> 2.5", ">= 2.5.2"
+  spec.add_dependency "faraday-net_http", "~> 3.0"
+  spec.add_dependency "json_pure", "~> 2.6", ">= 2.6.2"
+>>>>>>> 0dbe992e77085437d9350cdb41826946b87f26da
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end

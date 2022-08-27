@@ -11,22 +11,12 @@ gem "rspec", "~> 3.0"
 
 gem "rubocop", "~> 1.21"
 
-gem "byebug"
+gem "base64", "~> 0.1.1"
 
-gem "base64"
+gem "faraday", "~> 2.5", ">= 2.5.2"
 
-gem "httpx"
+gem "faraday-net_http", "~> 3.0"
 
-gem "launchy"
+gem "securerandom", "~> 0.2.0"
 
-gem "net-http"
-
-gem "faraday"
-
-gem "faraday-net_http"
-
-gem "securerandom"
-
-gem 'dotenv-rails'
-
-gem 'json_pure'
+gem "json_pure", "~> 2.6", ">= 2.6.2"
