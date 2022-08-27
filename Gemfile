@@ -17,6 +17,4 @@ gem "faraday", "~> 2.5", ">= 2.5.2"
 
 gem "faraday-net_http", "~> 3.0"
 
-gem "securerandom", "~> 0.2.0"
-
 gem "json_pure", "~> 2.6", ">= 2.6.2"

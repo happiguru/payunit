@@ -9,7 +9,6 @@ require "base64"
 require "net/http"
 require "faraday"
 require "faraday/net_http"
-
 Faraday.default_adapter = :net_http
 
 # Payunit payment class
@@ -81,7 +80,7 @@ class PayUnit
     end
   end
 
-  def transaction_details(transaction_id)
+  def self.transaction_details(transaction_id)
     auth = "#{@api_username}:#{@api_password}"
     environment = to_str(@mode)
     auth_data = Base64.strict_encode64(auth)
@@ -104,16 +103,9 @@ class PayUnit
       response = conn.get(url)
       response = JSON.parse(response&.body || "{}")
       raise response["message"] unless response["statusCode"] == 200
-<<<<<<< HEAD
-      
-      Launchy.open(response["data"]["transaction_url"])
-      { "message": "Successfylly initated Transaction", "statusCode": response["statusCode"] }
-    rescue StandardError => e
-=======
 
       response
     rescue StandardError
->>>>>>> 0dbe992e77085437d9350cdb41826946b87f26da
       abort(response["message"])
     end
   end
