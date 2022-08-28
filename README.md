@@ -19,7 +19,7 @@ Follow the instructions below to make payments locally:
 ## To Make A Payment
 
 - Add the gem directly to your Gemfile using:
-```gem 'payunit', '~> 0.2.2.1'```
+```gem 'payunit', '~> 0.2.2.2'```
 
 - If you plan to use `.env` then add:
 ```gem 'dotenv'```
