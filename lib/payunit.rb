@@ -147,10 +147,6 @@ class PayUnit
     raise "Invalid sdk mode" if @mode.downcase != "test" && @mode.downcase != "live"
   end
 end
-PayUnit.transaction_details("757898467",
-                            "592563ad915dfcf36ac87b7bcff7b36fcddadf54",
-                            "payunit_sand_XsV0ToJKi", "6b4e5143-1200-4d91-aac6-77d8882be88e",
-                            "test")
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/AbcSize
 # rubocop:enable Metrics/ClassLength
