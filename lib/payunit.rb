@@ -80,16 +80,16 @@ class PayUnit
     end
   end
 
-  def self.transaction_details(transaction_id)
-    auth = "#{@api_username}:#{@api_password}"
-    environment = to_str(@mode)
+  def self.transaction_details(transaction_id, api_key, api_username, api_password, mode)
+    auth = "#{api_username}:#{api_password}"
+    environment = mode.to_s
     auth_data = Base64.strict_encode64(auth)
 
     headers = {
-      "x-api-key": to_str(@api_key),
+      "x-api-key": api_key.to_s,
       "content-type": "application/json",
-      "Authorization": "Basic #{to_str(auth_data)}",
-      "mode": to_str(environment.downcase)
+      "Authorization": "Basic #{auth_data}",
+      "mode": environment.downcase.to_s
     }
     begin
       conn = Faraday.new(
@@ -99,7 +99,6 @@ class PayUnit
       )
 
       url = "https://app.payunit.net/api/gateway/transaction/#{transaction_id}"
-
       response = conn.get(url)
       response = JSON.parse(response&.body || "{}")
       raise response["message"] unless response["statusCode"] == 200
@@ -112,8 +111,8 @@ class PayUnit
 
   private
 
-  def to_str(xata)
-    xata.to_s
+  def to_str(param)
+    param.to_s
   end
 
   def check_api_key
