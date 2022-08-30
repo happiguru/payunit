@@ -67,7 +67,10 @@ redirect_to payment_url["data"]["transaction_url"]
 - In order to get transaction detail for a transaction recently made, you have to use the following function and pass in the `transaction_id` you had earlier passed in at the time of the payment.
 
 ```
-PayUnit.transaction_details(transaction_id)
+PayUnit.transaction_details(transaction_id,
+ PAY_UNIT_API_KEY, 
+ PAY_UNIT_API_USERNAME,
+ PAY_UNIT_API_PASSWORD )
 ```
 The response you would get looks like this:
 
